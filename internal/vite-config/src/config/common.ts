@@ -6,15 +6,14 @@ const commonConfig: UserConfig = {
   server: {
     host: true,
   },
-
   build: {
     reportCompressedSize: false,
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 2000,
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@vben/design/shared";`,
+        additionalData: `@import "@vben/styles/shared";`,
       },
     },
   },

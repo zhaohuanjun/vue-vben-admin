@@ -4,7 +4,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.eol": "\n",
   "npm.packageManager": "pnpm",
-  "eslint.packageManager": "pnpm",
   "stylelint.packageManager": "pnpm",
   "search.exclude": {
     "**/node_modules": true,
@@ -19,20 +18,15 @@
     "**/.DS_Store": true,
     "**/.idea": true,
     "**/.vscode": false,
-    "**/yarn.lock": true,
     "**/tmp": true,
+    "*.xml": true,
     "out": true,
     "dist": true,
     "node_modules": true,
-    "CHANGELOG.md": true,
-    "examples": true,
-    "res": true,
-    "screenshots": true,
-    "yarn-error.log": true,
-    "**/.yarn": true
+    "CHANGELOG.md": true
   },
   "files.exclude": {
-    "**/.cache": true,
+    "**/.cache": false,
     "**/.editorconfig": true,
     "**/.eslintcache": true,
     "**/bower_components": true,
@@ -57,81 +51,12 @@
   },
   "stylelint.enable": true,
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass"],
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[less]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
   },
-  "[vue]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true
-    }
-  },
-  "i18n-ally.localesPaths": ["src/locales/lang"],
-  "i18n-ally.keystyle": "nested",
-  "i18n-ally.sortKeys": true,
-  "i18n-ally.namespace": true,
-  "i18n-ally.pathMatcher": "{locale}/{namespaces}.{ext}",
-  "i18n-ally.enabledParsers": ["ts"],
-  "i18n-ally.sourceLanguage": "en",
-  "i18n-ally.displayLanguage": "zh-CN",
-  "i18n-ally.enabledFrameworks": ["vue", "react"],
-  "cSpell.words": [
-    "vben",
-    "browserslist",
-    "tailwindcss",
-    "esnext",
-    "antv",
-    "sider",
-    "pinia",
-    "sider",
-    "nprogress",
-    "INTLIFY",
-    "stylelint",
-    "esno",
-    "vitejs",
-    "sortablejs",
-    "mockjs",
-    "codemirror",
-    "iconify",
-    "commitlint",
-    "echarts",
-    "cropperjs",
-    "logicflow",
-    "vueuse",
-    "zxcvbn",
-    "lintstagedrc",
-    "brotli",
-    "tailwindcss",
-    "sider",
-    "pnpm",
-    "antd",
-    "unref"
-  ],
+
+  "cSpell.words": ["vben", "iconify", "pinia", "nprogress"],
   // 控制相关文件嵌套展示
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
@@ -144,5 +69,6 @@
     "package.json": "pnpm-lock.yaml,pnpm-workspace.yaml,LICENSE,.gitattributes,.gitignore,.gitpod.yml,CNAME,.npmrc,.browserslistrc,.nvmrc",
     ".eslintrc.cjs": ".eslintignore,.prettierignore,.stylelintignore,.commitlintrc.*,.prettierrc.*,.stylelintrc.*,.lintstagedrc"
   },
-  "terminal.integrated.scrollback": 10000
+  "terminal.integrated.scrollback": 10000,
+  "search.followSymlinks": false
 }

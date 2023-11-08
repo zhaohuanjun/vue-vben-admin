@@ -23,9 +23,38 @@ export default {
   ],
   rules: {
     'prettier/prettier': true,
-    'at-rule-no-unknown': null,
-    'scss/at-rule-no-unknown': true,
-
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'extends',
+          'ignores',
+          'include',
+          'mixin',
+          'if',
+          'else',
+          'media',
+          'for',
+          'at-root',
+        ],
+      },
+    ],
+    'scss/at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'extends',
+          'ignores',
+          'include',
+          'mixin',
+          'if',
+          'else',
+          'media',
+          'for',
+          'at-root',
+        ],
+      },
+    ],
     'selector-not-notation': null,
     'import-notation': null,
     'function-no-unknown': null,

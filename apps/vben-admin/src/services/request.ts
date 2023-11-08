@@ -2,7 +2,7 @@
  * 该文件可自行根据业务逻辑进行调整
  */
 
-import { useUserStore } from '@vben/store';
+import { useAccessStore } from '@vben/store';
 import { message } from 'ant-design-vue';
 import axios, {
   AxiosError,
@@ -10,6 +10,10 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+
+// 后端需要的 token 存放在header内的key字段
+// 可以根据自己的需要修改
+const REQUEST_HEADER_TOKEN_KEY = 'Authorization';
 
 type HttpConfig = InternalAxiosRequestConfig;
 
@@ -87,13 +91,13 @@ axiosInstance.interceptors.request.use(
     addRequestSignal(config);
 
     // 携带 getAccessToken 在请求头
-    const userStore = useUserStore();
-    const getAccessToken = userStore.getAccessToken;
+    const accessStore = useAccessStore();
+    const getAccessToken = accessStore.getAccessToken;
 
     if (getAccessToken) {
-      config.headers.Authorization = getAccessToken;
+      config.headers[REQUEST_HEADER_TOKEN_KEY] = getAccessToken;
     }
-    return config as InternalAxiosRequestConfig;
+    return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);

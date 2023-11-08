@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import type { CSSProperties } from 'vue';
-  import { computed } from 'vue';
+  import { computed, useSlots } from 'vue';
 
   defineOptions({ name: 'VbenLayoutHeader' });
 
@@ -26,6 +26,11 @@
      */
     height?: number;
     /**
+     * 宽度
+     * @default 100%
+     */
+    width?: string;
+    /**
      * 是否固定在顶部
      * @default true
      */
@@ -42,9 +47,12 @@
     zIndex: 0,
     height: 60,
     fixed: true,
+    width: '100%',
   });
 
-  const { b, e } = useNamespace('header');
+  const slots = useSlots();
+
+  const { b, e } = createNamespace('header');
 
   const hiddenHeaderStyle = computed((): CSSProperties => {
     const { height, show, fixed } = props;
@@ -58,8 +66,9 @@
   });
 
   const style = computed((): CSSProperties => {
-    const { backgroundColor, height, fixed, zIndex, show, fullWidth } = props;
+    const { backgroundColor, height, fixed, zIndex, show, fullWidth, width } = props;
     const right = !show || !fullWidth ? undefined : 0;
+
     return {
       position: fixed ? 'fixed' : 'static',
       marginTop: show ? 0 : `-${height}px`,
@@ -67,13 +76,15 @@
       height: `${height}px`,
       zIndex,
       right,
+      width,
     };
   });
 </script>
 
 <template>
-  <div :style="hiddenHeaderStyle" :class="e('hide')"></div>
+  <div v-if="fixed" :style="hiddenHeaderStyle" :class="e('hide')"></div>
   <header :style="style" :class="b()">
+    <slot v-if="slots.logo" name="logo"></slot>
     <slot></slot>
   </header>
 </template>
@@ -81,6 +92,7 @@
 <style scoped module lang="scss">
   @include b('header') {
     top: 0;
+    display: flex;
     width: 100%;
     transition: all 0.3s ease 0s;
 

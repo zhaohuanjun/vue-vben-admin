@@ -32,6 +32,7 @@ export default defineConfig({
   plugins: ['vue', '@typescript-eslint', 'import', 'simple-import-sort'],
   rules: {
     'prettier/prettier': 'error',
+    'spaced-comment': 'error',
     eqeqeq: ['warn', 'always', { null: 'never' }],
     'no-console': 'warn',
     'no-unused-vars': 'off',
@@ -62,7 +63,7 @@ export default defineConfig({
     'n/no-extraneous-import': [
       'error',
       {
-        allowModules: ['unbuild', '@vben/vite-config', 'vitest'],
+        allowModules: ['unbuild', '@vben/vite-config', 'vitest', 'vite'],
       },
     ],
 

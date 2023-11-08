@@ -1,14 +1,14 @@
-import type { UserInfo } from '@vben/types';
+import type { UserInfo } from '@vben/typings';
 
 import { request } from '@/services/request';
 
-import type { UserService } from './typing';
+import type { UserApi } from './typing';
 
 /**
  * 登录
  */
-async function userLogin(data: UserService.LoginParams) {
-  return request<UserService.LoginResult>('/login', { data, method: 'POST' });
+async function userLogin(data: UserApi.LoginParams) {
+  return request<UserApi.LoginResult>('/login', { data, method: 'POST' });
 }
 
 /**
@@ -20,4 +20,4 @@ async function getUserInfo() {
 
 export { getUserInfo, userLogin };
 
-export type { UserService } from './typing';
+export type { UserApi } from './typing';

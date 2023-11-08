@@ -24,23 +24,24 @@
     "type:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@vben/ant-ui": "workspace:*",
-    "@vben/design": "workspace:*",
+    "@vben/antv-ui": "workspace:*",
     "@vben/hooks": "workspace:*",
+    "@vben/icons": "workspace:*",
     "@vben/layout": "workspace:*",
+    "@vben/preference": "workspace:*",
     "@vben/share-ui": "workspace:*",
-    "@vben/shared": "workspace:*",
     "@vben/store": "workspace:*",
-    "@vben/types": "workspace:*",
-    "ant-design-vue": "^4.0.0-beta.4",
-    "axios": "^1.4.0",
-    "dayjs": "^1.11.7",
-    "pinia": "2.0.35",
-    "vue": "^3.3.0-beta.5",
-    "vue-router": "^4.1.6"
+    "@vben/styles": "workspace:*",
+    "@vben/toolkit": "workspace:*",
+    "@vben/typings": "workspace:*",
+    "ant-design-vue": "^4.0.6",
+    "axios": "^1.6.0",
+    "dayjs": "^1.11.10",
+    "pinia": "2.1.7",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@iconify/iconify": "^3.1.0",
     "vite-plugin-mock": "^3.0.0"
   }
 }

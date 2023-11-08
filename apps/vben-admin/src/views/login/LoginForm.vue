@@ -1,18 +1,18 @@
 <script setup lang="ts">
   import { useRequest } from '@vben/hooks';
-  import { useUserStore } from '@vben/store';
+  import { useAccessStore } from '@vben/store';
   import { Button, Checkbox, Form, Input } from 'ant-design-vue';
   import type { Rule } from 'ant-design-vue/es/form';
   import { reactive } from 'vue';
   import { useRouter } from 'vue-router';
 
-  import { getUserInfo, userLogin, type UserService } from '@/services';
+  import { getUserInfo, type UserApi, userLogin } from '@/services';
 
   defineOptions({ name: 'LoginForm' });
 
   const useForm = Form.useForm;
 
-  const formModel = reactive<UserService.LoginParams & { rememberMe: boolean }>({
+  const formModel = reactive<UserApi.LoginParams & { rememberMe: boolean }>({
     username: 'vben',
     password: '123456',
     rememberMe: false,
@@ -34,11 +34,11 @@
   });
 
   const router = useRouter();
-  const userStore = useUserStore();
+  const accessStore = useAccessStore();
   const { validate, validateInfos } = useForm(formModel, formRules);
 
-  const { loading, runAsync } = useRequest(userLogin, { manual: true });
-  const { loading: userInfoLoading, runAsync: runUserInfoAsync } = useRequest(getUserInfo, {
+  const { loading, runAsync: runUserLogin } = useRequest(userLogin, { manual: true });
+  const { loading: userInfoLoading, runAsync: runGetUserInfo } = useRequest(getUserInfo, {
     manual: true,
   });
 
@@ -53,11 +53,11 @@
     if (!values) {
       return;
     }
-    const { accessToken } = await runAsync(values);
+    const { accessToken } = await runUserLogin(values);
     if (accessToken) {
-      userStore.setAccessToken(accessToken);
-      const userInfo = await runUserInfoAsync();
-      userStore.setUserInfo(userInfo);
+      accessStore.setAccessToken(accessToken);
+      const userInfo = await runGetUserInfo();
+      accessStore.setUserInfo(userInfo);
       router.push(userInfo.homePath);
     }
   }

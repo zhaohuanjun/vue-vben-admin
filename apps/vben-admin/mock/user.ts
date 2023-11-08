@@ -27,7 +27,7 @@ const fakeUserList = [
     avatar: '',
     desc: 'tester',
     accessToken: 'fakeTestToken',
-    homePath: '/dashboard/workbench',
+    homePath: '/workbench',
     roles: [
       {
         roleName: 'Tester',
@@ -40,7 +40,7 @@ const fakeUserList = [
 export default (_config: MockConfig): MockMethod[] => {
   return [
     {
-      url: '/req-api/login',
+      url: '/vben-api/login',
       timeout: 200,
       method: 'post',
       response: ({ body }) => {
@@ -63,7 +63,7 @@ export default (_config: MockConfig): MockMethod[] => {
       },
     },
     {
-      url: '/req-api/getUserInfo',
+      url: '/vben-api/getUserInfo',
       method: 'get',
       response: (request) => {
         const token = getRequestToken(request);
@@ -77,7 +77,7 @@ export default (_config: MockConfig): MockMethod[] => {
       },
     },
     {
-      url: '/req-api/logout',
+      url: '/vben-api/logout',
       timeout: 200,
       method: 'get',
       response: (request) => {

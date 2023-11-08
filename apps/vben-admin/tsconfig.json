@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@vben/ts-config/web.json",
+  "extends": "@vben/tsconfig/web.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "mock"]
+  "include": ["src", "vite.config.mts", "mock"]
 }

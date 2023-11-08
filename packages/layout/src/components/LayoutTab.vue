@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import type { CSSProperties } from 'vue';
   import { computed } from 'vue';
 
@@ -39,7 +39,7 @@
     top: 0,
   });
 
-  const { b, e } = useNamespace('tab');
+  const { b, e } = createNamespace('tab');
 
   const hiddenStyle = computed((): CSSProperties => {
     const { height, zIndex, top, fixed } = props;

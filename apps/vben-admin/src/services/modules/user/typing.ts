@@ -1,4 +1,4 @@
-namespace UserService {
+namespace UserApi {
   /** 登录接口参数 */
   export interface LoginParams {
     username: string;
@@ -15,4 +15,4 @@ namespace UserService {
   }
 }
 
-export type { UserService };
+export type { UserApi };

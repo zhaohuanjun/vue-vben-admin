@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import { onClickOutside } from '@vueuse/core';
   import type { CSSProperties } from 'vue';
-  import { computed, ref, shallowRef, watchEffect } from 'vue';
+  import { computed, ref, shallowRef, useSlots, watchEffect } from 'vue';
 
   defineOptions({ name: 'VbenLayoutSide' });
 
@@ -22,6 +22,15 @@
      * @default 0
      */
     zIndex?: number;
+    /**
+     * 头部高度
+     */
+    headerHeight: number;
+    /**
+     * 折叠区域高度
+     * @default 32
+     */
+    collapsedHeight?: number;
     /**
      * 背景颜色
      */
@@ -56,6 +65,15 @@
      * @default false
      */
     mixedExtraVisible?: boolean;
+    /**
+     * 显示折叠按钮
+     * @default false
+     */
+    showCollapsedButton?: boolean;
+    /**
+     * 折叠状态
+     */
+    collapsed?: boolean;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -64,15 +82,22 @@
     width: 180,
     sideExtraWidth: 180,
     paddingTop: 60,
+    collapsedHeight: 32,
     isSideMixed: false,
     fixedMixedExtra: false,
     mixedExtraVisible: false,
     domVisible: true,
+    showCollapsedButton: true,
+    collapsed: false,
   });
 
-  const { b, e } = useNamespace('side');
+  const { b, e } = createNamespace('side');
+  const slots = useSlots();
 
-  const emit = defineEmits(['extraVisible']);
+  const emit = defineEmits<{
+    extraVisible: [visible: boolean];
+    'update:collapsed': [value: boolean];
+  }>();
 
   const asideRef = shallowRef<HTMLDivElement | null>();
   const extraVisible = ref(false);
@@ -93,6 +118,7 @@
 
   const style = computed((): CSSProperties => {
     const { paddingTop, zIndex } = props;
+
     return {
       ...hiddenSideStyle.value,
       paddingTop: `${paddingTop}px`,
@@ -111,6 +137,30 @@
     };
   });
 
+  const headerStyle = computed((): CSSProperties => {
+    const { headerHeight } = props;
+
+    return {
+      height: `${headerHeight}px`,
+    };
+  });
+
+  const contentStyle = computed((): CSSProperties => {
+    const { headerHeight, collapsedHeight } = props;
+
+    return {
+      height: `calc(100% - ${headerHeight + collapsedHeight}px)`,
+    };
+  });
+
+  const collapseStyle = computed((): CSSProperties => {
+    const { collapsedHeight } = props;
+
+    return {
+      height: `${collapsedHeight}px`,
+    };
+  });
+
   watchEffect(() => {
     extraVisible.value = props.fixedMixedExtra ? true : props.mixedExtraVisible;
   });
@@ -124,12 +174,30 @@
       }
     }
   });
+
+  function handleCollapsed() {
+    emit('update:collapsed', !props.collapsed);
+  }
 </script>
 
 <template>
   <div v-if="domVisible" :style="hiddenSideStyle" :class="e('hide')"></div>
   <aside :style="style" :class="b()">
-    <slot></slot>
+    <div v-if="slots.logo" :style="headerStyle">
+      <slot name="logo"></slot>
+    </div>
+    <div :style="contentStyle" :class="e('content')">
+      <slot></slot>
+    </div>
+    <div
+      v-if="showCollapsedButton"
+      :class="e('collapsed-button')"
+      :style="collapseStyle"
+      @click="handleCollapsed"
+    >
+      <slot v-if="collapsed" name="collapsed-button"></slot>
+      <slot v-else name="un-collapsed-button"></slot>
+    </div>
     <div v-if="isSideMixed" ref="asideRef" :style="extraStyle" :class="e('extra')">
       <slot name="extra"></slot>
     </div>
@@ -142,13 +210,27 @@
     top: 0;
     left: 0;
     height: 100%;
-    overflow: hidden;
+    // overflow: hidden;
     box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
     transition: all 0.2s ease 0s;
 
     @include e('hide') {
       height: 100%;
       transition: all 0.2s ease 0s;
+    }
+
+    @include e('content') {
+      overflow: auto;
+    }
+
+    @include e('collapsed-button') {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      color: rgb(255 255 255 / 65%);
+      cursor: pointer;
+      background-color: rgb(255 255 255 / 10%);
     }
 
     @include e('extra') {

@@ -2,7 +2,7 @@
   <div></div>
 </template>
 <script lang="ts" setup>
-  import { isArray } from '@vben/shared';
+  import { isArray } from '@vben/toolkit';
   import { useRoute, useRouter } from 'vue-router';
 
   const { replace } = useRouter();

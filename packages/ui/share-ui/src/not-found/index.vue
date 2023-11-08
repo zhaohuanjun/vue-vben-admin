@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { pageNotFoundSvg } from '@vben/assets';
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import { useRouter } from 'vue-router';
+
+  import pageNotFoundSvg from './page-not-found.svg';
 
   defineOptions({
     name: 'NotFoundPage',
@@ -18,14 +19,21 @@
      *  @default /
      */
     homePath?: string;
+
+    /**
+     * @description 默认显示的图片
+     * @default pageNotFoundSvg
+     */
+    image?: string;
   }
 
   const props = withDefaults(defineProps<Props>(), {
     title: '对不起，您访问的页面不存在',
     homePath: '/',
+    image: pageNotFoundSvg,
   });
 
-  const { b, e } = useNamespace('not-found');
+  const { b, e } = createNamespace('not-found');
 
   const { push } = useRouter();
 
@@ -37,7 +45,7 @@
 
 <template>
   <div :class="[b(), 'enter-y']">
-    <img :src="pageNotFoundSvg" class="w-1/4" />
+    <img :src="image" class="w-1/4" />
     <p :class="e('title')"> {{ title }} </p>
     <a href="javascript:void" :class="e('button')" @click="back">返回主页</a>
   </div>

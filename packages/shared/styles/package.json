@@ -1,0 +1,36 @@
+{
+  "name": "@vben/styles",
+  "version": "1.0.0",
+  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "bugs": {
+    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "packages/shared/styles"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.mjs"
+    },
+    "./shared": {
+      "default": "./src/shared.scss"
+    }
+  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "clean": "pnpm rimraf .turbo node_modules dist",
+    "lint": "pnpm eslint ."
+  },
+  "dependencies": {
+    "modern-normalize": "^2.0.0"
+  }
+}

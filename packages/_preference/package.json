@@ -1,0 +1,41 @@
+{
+  "name": "@vben/preference",
+  "version": "1.0.0",
+  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "bugs": {
+    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "packages/preference"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./custom": {
+      "development": "./src/custom/index.ts",
+      "types": "./src/custom/index.ts",
+      "default": "./src/custom/index.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "pnpm rimraf .turbo node_modules dist",
+    "lint": "pnpm eslint ."
+  },
+  "dependencies": {
+    "@vben/store": "workspace:*",
+    "@vben/typings": "workspace:*",
+    "defu": "^6.1.3",
+    "vue": "^3.3.8"
+  }
+}

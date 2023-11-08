@@ -25,11 +25,11 @@ function configCommonGuard(router: Router) {
  * 项目守卫配置
  * @param router
  */
-function setupRouteGuard(router: Router) {
+function createRouteGuard(router: Router) {
   /** 通用 */
   configCommonGuard(router);
   /** 权限访问 */
   configAccessGuard(router);
 }
 
-export { setupRouteGuard };
+export { createRouteGuard };

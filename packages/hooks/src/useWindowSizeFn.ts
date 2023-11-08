@@ -1,4 +1,4 @@
-import { type AnyFunction } from '@vben/types';
+import { type AnyFunction } from '@vben/typings';
 import { tryOnMounted, tryOnUnmounted, useDebounceFn } from '@vueuse/core';
 
 interface UseWindowSizeFnOptions {

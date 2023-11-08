@@ -1,40 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { BasicLayout } from '@/layouts/index';
-
-/** 动态路由 */
-const dynamicRoutes: RouteRecordRaw[] = [
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: BasicLayout,
-    redirect: { name: 'Analysis' },
-    children: [
-      {
-        path: '',
-        name: 'Analysis',
-        component: () => import('@/views/dashboard/index.vue'),
-      },
-    ],
-  },
-];
+const Layout = () => import('@/layouts/index.vue');
 
 /** 静态路由列表，访问这些页面可以不需要权限 */
 const staticRoutes: RouteRecordRaw[] = [
-  ...dynamicRoutes,
-  // {
-  //   path: '/:catchAll(.*)',
-  //   redirect: { name: 'Dashboard' },
-  // },
-  // 根路由
-  {
-    path: '/',
-    name: 'Root',
-    redirect: '/dashboard',
-    meta: {
-      title: 'Root',
-    },
-  },
   {
     path: '/login',
     name: 'Login',
@@ -53,11 +22,73 @@ const staticRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/:path(.*)*',
-    name: 'PageNotFound',
+    name: 'NotFound',
     component: () => import('@vben/share-ui').then((m) => m.NotFound),
     meta: {
-      title: 'PageNotFound',
+      title: 'NotFound',
     },
+  },
+  //
+];
+
+/** 动态路由 */
+const dynamicRoutes: RouteRecordRaw[] = [
+  // 根路由
+  {
+    path: '/',
+    name: 'Dashboard',
+    redirect: '/dashboard',
+    component: Layout,
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        meta: {
+          title: 'Dashboard',
+        },
+      },
+    ],
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Layout,
+    children: [
+      {
+        path: '/test1',
+        name: 'Test1',
+        component: () => import('@/views/test/test1.vue'),
+        meta: {
+          title: 'Test1',
+        },
+      },
+      {
+        path: '/test2',
+        name: 'Test2',
+        component: () => import('@/views/test/test2.vue'),
+        meta: {
+          title: 'Test2',
+        },
+      },
+      {
+        path: '/test3',
+        name: 'Test3',
+        meta: {
+          title: 'Test3',
+        },
+        children: [
+          {
+            path: '/test31',
+            name: 'Test31',
+            component: () => import('@/views/test/test3.vue'),
+            meta: {
+              title: 'Test31',
+            },
+          },
+        ],
+      },
+    ],
   },
 ];
 

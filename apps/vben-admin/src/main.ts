@@ -1,26 +1,22 @@
-/** uno.css 样式表,需要插件配合 */
 import 'uno.css';
-import '@vben/design';
+import '@vben/styles';
 
+import { initIcons } from '@vben/icons';
 import { useStore } from '@vben/store';
 import { createApp } from 'vue';
 
 import App from './App.vue';
 import { router } from './router';
 
-async function bootstrap() {
-  const app = createApp(App);
+const app = createApp(App);
 
-  // 配置 pinia-store
-  useStore(app);
+// 配置 pinia-store
+useStore(app);
 
-  // 配置路由
-  app.use(router);
+// 配置路由及路由守卫
+app.use(router);
 
-  // 路由守卫
-  // setupRouterGuard(router);
+// 初始化图标
+initIcons();
 
-  app.mount('#app');
-}
-
-bootstrap();
+app.mount('#app');

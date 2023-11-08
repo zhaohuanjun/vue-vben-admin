@@ -1,7 +1,11 @@
 <script setup lang="ts">
-  import { loginBgSvg, loginSloganSvg, logoImage } from '@vben/assets';
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import { computed } from 'vue';
+
+  import Logo from '../logo/index.vue';
+  import loginBgSvg from './login-bg.svg';
+  // import loginBgDarkSvg from './login-bg-dark.svg';
+  import loginSloganSvg from './login-slogan.svg';
 
   defineOptions({
     name: 'LoginPage',
@@ -23,14 +27,12 @@
     /**
      * @description logo图片
      */
-    logo?: string;
+    logo: string;
   }
 
-  withDefaults(defineProps<Props>(), {
-    logo: logoImage,
-  });
+  withDefaults(defineProps<Props>(), {});
 
-  const { b, e } = useNamespace('login');
+  const { b, e } = createNamespace('login');
 
   // TODO: 黑暗模式
   const loginBackagroundImage = computed(() => {
@@ -41,10 +43,7 @@
 <template>
   <div :class="b()">
     <div :class="e('header')" class="-enter-x">
-      <img :src="logo" :class="e('logo')" />
-      <div :class="e('appname')">
-        {{ appName }}
-      </div>
+      <Logo :src="logo" :text="appName" :text-size="26" theme="dark" />
     </div>
 
     <div :class="e('slogan')">
@@ -81,18 +80,6 @@
       padding: 0 100px;
       text-align: left;
       cursor: pointer;
-    }
-
-    @include e('logo') {
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
-    }
-
-    @include e('appname') {
-      margin-left: 8px;
-      font-size: 30px;
-      color: #fff;
     }
 
     @include e('slogan') {

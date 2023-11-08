@@ -16,13 +16,12 @@
   "exports": {
     ".": {
       "development": "./src/index.ts",
-      "types": "./dist/index.d.ts",
+      "types": "./src/index.ts",
       "default": "./dist/index.mjs"
     }
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -33,11 +32,11 @@
     "stub": "pnpm unbuild --stub"
   },
   "dependencies": {
-    "@vben/types": "workspace:*",
-    "@vueuse/core": "^10.1.2",
-    "@vueuse/integrations": "^10.1.2",
-    "vue": "^3.3.0-beta.5",
-    "vue-hooks-plus": "^1.6.5"
+    "@vben/typings": "workspace:*",
+    "@vueuse/core": "^10.5.0",
+    "@vueuse/integrations": "^10.5.0",
+    "vue": "^3.3.8",
+    "vue-hooks-plus": "^1.8.5"
   },
   "publishConfig": {
     "exports": {

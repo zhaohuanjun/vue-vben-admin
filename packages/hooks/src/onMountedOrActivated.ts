@@ -1,4 +1,4 @@
-import { type AnyFunction } from '@vben/types';
+import { type AnyFunction } from '@vben/typings';
 import { nextTick, onActivated, onMounted } from 'vue';
 
 /**

@@ -17,9 +17,9 @@ interface DefineOptions {
 }
 
 function definePackageConfig(defineOptions: DefineOptions = {}) {
-  const { overrides = {}, options = {} } = defineOptions;
+  const { overrides = {}, options } = defineOptions;
   const root = process.cwd();
-  const { extraCss } = options;
+  const { extraCss } = options || {};
 
   return defineConfig(async () => {
     const { dependencies = {}, peerDependencies = {} } = await readPackageJSON(root);

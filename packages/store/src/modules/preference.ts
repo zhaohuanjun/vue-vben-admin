@@ -1,20 +1,28 @@
+import type { Preference } from '@vben/typings';
 import { acceptHMRUpdate, defineStore } from 'pinia';
+
+interface PreferenceState {
+  preference?: Preference;
+}
 
 /**
  * @description 偏好设置相关
  */
-const usePreferenceStore = defineStore('shared-preference', {
-  state: () => ({
-    appName: 'vben-admin',
+const usePreferenceStore = defineStore('preference', {
+  persist: {
+    paths: ['preference'],
+  },
+  state: (): PreferenceState => ({
+    preference: undefined,
   }),
   getters: {
-    getAppName(): string {
-      return this.appName;
+    getPreference(): Preference | undefined {
+      return this.preference;
     },
   },
   actions: {
-    setAppName(name: string) {
-      this.appName = name;
+    setPreference(preference: Preference) {
+      this.preference = preference;
     },
   },
 });

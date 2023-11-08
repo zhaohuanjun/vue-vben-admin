@@ -1,7 +1,10 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env.local"],
+  "globalEnv": ["NODE_ENV"],
   "pipeline": {
     "build": {
+      "cache": false,
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },

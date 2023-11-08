@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import type { CSSProperties } from 'vue';
   import { computed, watchEffect } from 'vue';
 
@@ -57,7 +57,7 @@
     sideVisible?: boolean;
     /**
      * 侧边栏宽度
-     * @default 180
+     * @default 210
      */
     sideWidth?: number;
     /**
@@ -74,12 +74,12 @@
      * 侧边菜单折叠状态
      * @default false
      */
-    sideCollapse?: boolean;
+    sideCollapsed?: boolean;
     /**
      *  侧边菜单折叠宽度
      * @default 48
      */
-    sideCollapseWidth?: number;
+    sideCollapsedWidth?: number;
     /**
      * padding
      * @default 16
@@ -163,9 +163,9 @@
     sideVisible: true,
     sideWidth: 180,
     sideMixedWidth: 80,
-    sideCollapse: false,
-    sideCollapseWidth: 48,
-    sideBackgroundColor: '#fff',
+    sideCollapsed: false,
+    sideCollapsedWidth: 48,
+    sideBackgroundColor: '#001628',
     contentPadding: 16,
     contentPaddingBottom: 16,
     contentPaddingTop: 16,
@@ -182,23 +182,23 @@
     fixedMixedExtra: false,
   });
 
-  const emit = defineEmits(['update:mixed-extra-visible', 'update:side-collapse']);
+  const emit = defineEmits(['update:mixed-extra-visible', 'update:side-collapsed']);
 
-  const { b, e } = useNamespace('layout');
+  const { b, e } = createNamespace('layout');
 
-  const sideCollapseState = computed({
+  const sideCollapsedState = computed({
     get() {
-      return props.sideCollapse;
+      return props.sideCollapsed;
     },
     set(collapse) {
-      emit('update:side-collapse', collapse);
+      emit('update:side-collapsed', collapse);
     },
   });
 
   /**
    * 动态获取侧边区域是否可见
    */
-  const getSideVisible = computed(() => {
+  const SideVisible = computed(() => {
     const { layout, sideVisible } = props;
     return layout !== 'header-nav' && sideVisible;
   });
@@ -214,11 +214,11 @@
   /**
    * 动态获取侧边宽度
    */
-  const getSiderWidth = computed(() => {
-    const { layout, sideWidth, isMobile, sideCollapseWidth, sideMixedWidth } = props;
+  const siderWidth = computed(() => {
+    const { layout, sideWidth, isMobile, sideCollapsedWidth, sideMixedWidth } = props;
     let width = 0;
-    if (sideCollapseState.value) {
-      width = isMobile ? 0 : sideCollapseWidth;
+    if (sideCollapsedState.value) {
+      width = isMobile ? 0 : sideCollapsedWidth;
     } else {
       if (layout === 'side-mixed-nav' && !isMobile) {
         width = sideMixedWidth;
@@ -247,12 +247,19 @@
   /**
    * 遮罩可见性
    */
-  const maskVisible = computed(() => !sideCollapseState.value && props.isMobile);
+  const maskVisible = computed(() => !sideCollapsedState.value && props.isMobile);
 
   /**
    * header fixed值
    */
-  const getHeaderFixed = computed(() => (props.layout === 'mixed-nav' ? true : props.headerFixed));
+  const headerFixed = computed(() => (props.layout === 'mixed-nav' ? true : props.headerFixed));
+
+  const headerWidth = computed(() => {
+    if (headerFixed.value && !['mixed-nav', 'header-nav'].includes(props.layout)) {
+      return `calc(100% - ${siderWidth.value}px)`;
+    }
+    return '100%';
+  });
 
   /**
    * tab top 值
@@ -275,7 +282,7 @@
   });
 
   watchEffect(() => {
-    sideCollapseState.value = props.isMobile;
+    sideCollapsedState.value = props.isMobile;
   });
 
   function handleExtraVisible(visible: boolean) {
@@ -283,7 +290,7 @@
   }
 
   function handleClickMask() {
-    sideCollapseState.value = true;
+    sideCollapsedState.value = true;
   }
 </script>
 
@@ -291,19 +298,31 @@
   <div :class="b()">
     <slot></slot>
     <LayoutSide
-      v-if="getSideVisible"
+      v-if="SideVisible"
+      v-model:collapsed="sideCollapsedState"
       :show="!fullContent"
-      :width="getSiderWidth"
+      :width="siderWidth"
       :side-extra-width="sideWidth"
       :mixed-extra-visible="mixedExtraVisible"
       :z-index="sideZIndex"
       :dom-visible="!isMobile"
       :is-side-mixed="isSideMixed"
+      :header-height="headerHeight"
       :padding-top="sidePaddingTop"
       :fixed-mixed-extra="fixedMixedExtra"
       :background-color="sideBackgroundColor"
       @extra-visible="handleExtraVisible"
     >
+      <template v-if="isSideMode" #logo>
+        <slot name="logo"></slot>
+      </template>
+      <template #collapsed-button>
+        <slot name="collapsed-button"></slot>
+      </template>
+      <template #un-collapsed-button>
+        <slot name="un-collapsed-button"></slot>
+      </template>
+
       <slot name="side"></slot>
       <template #extra>
         <slot name="side-extra"></slot>
@@ -316,10 +335,14 @@
         :show="!fullContent"
         :z-index="zIndex"
         :height="headerHeight"
-        :fixed="getHeaderFixed"
+        :width="headerWidth"
+        :fixed="headerFixed"
         :full-width="!isSideMode"
         :background-color="headerBackgroundColor"
       >
+        <template v-if="!isSideMode" #logo>
+          <slot name="logo"></slot>
+        </template>
         <slot name="header"></slot>
       </LayoutHeader>
 
@@ -329,7 +352,7 @@
         :top="tabTop"
         :z-index="zIndex"
         :height="tabHeight"
-        :fixed="getHeaderFixed"
+        :fixed="headerFixed"
       >
         <slot name="tab"></slot>
       </LayoutTab>
@@ -362,6 +385,8 @@
 <style scoped module lang="scss">
   @include b('layout') {
     display: flex;
+    width: 100%;
+    min-height: 100%;
 
     @include e('main') {
       display: flex;

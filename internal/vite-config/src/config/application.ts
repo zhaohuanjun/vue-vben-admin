@@ -5,7 +5,6 @@ import { readPackageJSON } from 'pkg-types';
 import { presetTypography, presetUno } from 'unocss';
 import UnoCSS from 'unocss/vite';
 import { defineConfig, loadEnv, mergeConfig, type UserConfig } from 'vite';
-import { warmup } from 'vite-plugin-warmup';
 
 import { createPlugins } from '../plugins';
 import { commonConfig } from './common';
@@ -34,8 +33,6 @@ function defineApplicationConfig(defineOptions: DefineOptions = {}) {
       compress: VITE_BUILD_COMPRESS,
     });
 
-    const pathResolve = (pathname: string) => resolve(root, '.', pathname);
-
     const applicationConfig: UserConfig = {
       esbuild: {
         drop: isBuild ? ['console', 'debugger'] : [],
@@ -43,54 +40,40 @@ function defineApplicationConfig(defineOptions: DefineOptions = {}) {
       resolve: {
         alias: [
           {
-            find: 'vue',
-            replacement: 'vue/dist/vue.runtime.esm-bundler.js',
-          },
-          {
-            find: 'vue-i18n',
-            replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
-          },
-          // @/xxxx => src/xxxx
-          {
             find: /@\//,
-            replacement: pathResolve('src') + '/',
-          },
-          // #/xxxx => types/xxxx
-          {
-            find: /#\//,
-            replacement: pathResolve('types') + '/',
+            replacement: resolve(root, '.', 'src') + '/',
           },
         ],
       },
       define: defineData,
+
       build: {
         rollupOptions: {
           output: {
             chunkFileNames: 'js/[name]-[hash].js',
             entryFileNames: 'js/_entry-[name]-[hash].js',
             assetFileNames: '[ext]/[name]-[hash].[ext]',
-            manualChunks: {
-              vue: ['vue', 'pinia', 'vue-router'],
-              icon: ['@purge-icons/generated', 'virtual:svg-icons-register'],
-            },
+            // manualChunks: {
+            //   vue: ['vue', 'pinia', 'vue-router'],
+            // },
           },
         },
       },
       plugins: [
         ...plugins,
-        warmup({
-          clientFiles: ['./*.html'],
-        }),
         UnoCSS({
-          exclude: ['node_modules'],
-          include: ['**.ts', '**.tsx', '**.vue'],
           presets: [presetUno(), presetTypography()],
+          content: {
+            pipeline: {
+              exclude: ['node_modules'],
+              include: ['**.ts', '**.tsx', '**.vue'],
+            },
+          },
         }),
       ],
     };
 
     const mergedConfig = mergeConfig(commonConfig, applicationConfig);
-
     return mergeConfig(mergedConfig, overrides);
   });
 }

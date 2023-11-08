@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNamespace } from '@vben/hooks';
+  import { createNamespace } from '@vben/toolkit';
   import type { CSSProperties } from 'vue';
   import { computed } from 'vue';
 
@@ -39,7 +39,7 @@
     fixed: true,
   });
 
-  const { b } = useNamespace('footer');
+  const { b } = createNamespace('footer');
 
   const style = computed((): CSSProperties => {
     const { backgroundColor, height, fixed, zIndex, show } = props;

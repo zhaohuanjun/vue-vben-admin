@@ -1,10 +1,6 @@
 {
   "folders": [
     {
-      "name": "server",
-      "path": "apps/test-server"
-    },
-    {
       "name": "@vben/vben-admin",
       "path": "apps/vben-admin"
     },
@@ -21,24 +17,12 @@
       "path": "internal/stylelint-config"
     },
     {
-      "name": "@vben/ts-config",
+      "name": "@vben/tsconfig",
       "path": "internal/ts-config"
     },
     {
       "name": "@vben/vite-config",
       "path": "internal/vite-config"
-    },
-    {
-      "name": "@vben/apis",
-      "path": "packages/apis"
-    },
-    {
-      "name": "@vben/assets",
-      "path": "packages/assets"
-    },
-    {
-      "name": "@vben/design",
-      "path": "packages/design"
     },
     {
       "name": "@vben/hooks",
@@ -49,20 +33,28 @@
       "path": "packages/layout"
     },
     {
-      "name": "@vben/shared",
-      "path": "packages/shared"
+      "name": "@vben/styles",
+      "path": "packages/shared/styles"
+    },
+    {
+      "name": "@vben/toolkit",
+      "path": "packages/shared/toolkit"
+    },
+    {
+      "name": "@vben/typings",
+      "path": "packages/shared/typings"
     },
     {
       "name": "@vben/store",
       "path": "packages/store"
     },
     {
-      "name": "@vben/types",
-      "path": "packages/types"
+      "name": "@vben/antv-ui",
+      "path": "packages/ui/antv-ui"
     },
     {
-      "name": "@vben/ui",
-      "path": "packages/ui"
+      "name": "@vben/share-ui",
+      "path": "packages/ui/share-ui"
     },
     {
       "name": "root",
